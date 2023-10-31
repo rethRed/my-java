@@ -31,10 +31,10 @@ public class ProductEntity extends AggregateRoot {
         this.price = productDto.price;
     }
 
-    public ProductEntity(ProductDto productDto, String id) throws DomainError {
+    public ProductEntity(ProductDto productDto, String id)  {
         super(id);
         this.mapDtoToEntity(productDto);
-        this.validator.validateAll();
+        // this.validator.validateAll();
     }
 
     private ProductEntity(ProductDto productDto) throws DomainError {

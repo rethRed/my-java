@@ -23,7 +23,6 @@ public class Main {
                 .build();
             IUpdateProductUsecase updateProductUsecase = UpdateProductUsecaseFactory.create();
             updateProductUsecase.execute(updateProductDto);
-            System.out.println("fs");
 
         }catch(DomainError e) {
             System.out.println(e.getErrorName());
