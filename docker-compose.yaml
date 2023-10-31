@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  mongodb-primary:
+    image: bitnami/mongodb:latest
+    # container_name: mongodb-primary
+    environment:
+      - MONGODB_REPLICA_SET_MODE=primary
+      - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
+      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_ROOT_USER=root
+      - MONGODB_DATABASE=app
+    ports:
+      - 27017:27017
+    volumes:
+      - .mongodb_data:/bitnami
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+
+  mysql:
+    image: mysql:8.0
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    # container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: nestjs
+      MYSQL_PASSWORD: password
+    ports:
+      - '33010:3306'
+    volumes:
+      - ./.mysql-data:/var/lib/mysql
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+
+  rabbitmq:
+    image: 'rabbitmq:3.8-management-alpine'
+    # container_name: nestjs-rabbitmq
+    hostname: rabbitmq
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+    volumes:
+      - './.rabbitmq_data:/var/lib/rabbitmq/mnesia'
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    extra_hosts:
+      - 'host.docker.internal:172.17.0.1'
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379

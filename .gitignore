@@ -1,0 +1,4 @@
+.mongodb_data
+.mysql-data
+.rabbitmq_data
+target
